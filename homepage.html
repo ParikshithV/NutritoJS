@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Nutrition Tracker</title>
+  </head>
+  <body>
+
+    <div class="menu-bar">
+      <label class="abt">Graphical User Authentication Interface</label>
+      <div class="menu-btn">
+      <button onclick="AbtMe()">About Me</button>
+      <button onclick="Logout()">Logout</button>
+    </div>
+  </div><br><br>
+
+    <div>
+      <h3>Add intake data</h5>
+        <label>Intake Nickname</label>
+        <input type="text" id="inputbx" name="inputbx"><br><br>
+        <label>Enter intake data (in grams per serve)</label><br>
+        <input type="text" id="protein" name="inputbx" placeholder="Protein">
+        <input type="text" id="carbo" name="inputbx" placeholder="carbohydrates">
+        <input type="text" id="fat" name="inputbx" placeholder="Fat"><br><br>
+        <button onclick="CalcCal()">Calculate Calories</button><br>
+        <label>Calorie intake = </label>
+        <label id="Calories"></label>
+    </div>
+    <script>
+      function CalcCal(){
+        var p = document.getElementById("protein").value;
+        var c = document.getElementById("carbo").value;
+        var f = document.getElementById("fat").value;
+        var cal_p = p*4;
+        var cal_c = c*4;
+        var cal_f = f*9;
+        var Calories = cal_c+cal_p+cal_f;
+        document.getElementById("Calories").innerHTML = Calories;
+      }
+    </script>
+    <div>
+      <h3>Nutrition intake this week</h5>
+
+    </div>
+
+  </body>
+</html>
