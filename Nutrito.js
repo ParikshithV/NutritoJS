@@ -3,8 +3,7 @@ var http = require('http');
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
-var urlencodedParser = bodyParser.urlencoded({ extended: false }); 
-
+app.use(bodyParser.urlencoded({ extended: false }));
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -13,6 +12,12 @@ var con = mysql.createConnection({
 });
 var fs = require('fs');
 
+
+app.post('/submit', function (req, res){
+  res.render('homepage.html')
+  console.log("Data Saved");
+})
+
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
@@ -20,12 +25,8 @@ con.connect(function(err) {
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log("Done!");
-  });
+  })
 });
-
-function SaveData() {
-
-}
 
 function onRequest(request, response) {
   response.writeHead(200,{'Content-Type': 'text/html'});
