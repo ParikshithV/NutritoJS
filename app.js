@@ -30,7 +30,7 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/homepage.html'));
 });
 
-app.post('/save', urlencodedParser, function(req, res){
+app.post('/save.html', urlencodedParser, function(req, res){
     //if (err) throw err;
     var p = req.body.protein;
     var c = req.body.carbo;
@@ -42,7 +42,7 @@ app.post('/save', urlencodedParser, function(req, res){
       if (err) throw err;
       console.log("input saved!");
     })
-  console.log("Data saved!")
+  res.sendFile(path.join(__dirname + '/redirect.html'));
 })
 
 app.use(function(req, res, next) {

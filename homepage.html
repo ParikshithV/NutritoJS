@@ -1,34 +1,80 @@
 <html>
   <head>
-    <link type="text/css" href="/css/nutrito.css">
+
+    <!-- Internal CSS -->
+    <style>
+      body {
+        background-color: white;
+      }
+
+      h1 {
+        color: black;
+        text-align: center;
+      }
+
+      .btn {
+        background-color: #0099ff;
+        color: white;
+        border-radius: 12px;
+        border: none;
+        padding: 5px 32px;
+      }
+
+      .btn:hover {
+        background-color: #2eb82e;
+        color: white;
+      }
+
+      .txtbx {
+        width: 20%;
+        padding: 5px 10px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: none;
+        border-bottom: 2px solid black;
+      }
+
+      .txtbx2 {
+        width: 80px;
+        padding: 5px 5px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: none;
+        border-bottom: 2px solid black;
+      }
+    </style>
+
+
+    <!-- <link type="text/css" href="/css/nutrito.css"> -->
+    <link href='https://fonts.googleapis.com/css?family=Alef' rel='stylesheet'>
     <title>Nutrito-JS</title>
   </head>
   <body>
-    <form action="save" method="post">
+    <form action="save.html" method="post">
     <div>
-      <label>Nutrito JS</label>
+      <h1>Nutrito JS</h1>
       <div>
-      <button class="menubtn" onclick="AbtMe()">About Me</button>
-      <button onclick="Logout()">Logout</button>
+      <button class="btn" type="button" onclick="AbtMe()">About Me</button>
+      <button class="btn" type="button"onclick="Logout()">Logout</button>
     </div>
   </div><br>
     <div>
       <h3>Add nutrition intake data :</h5>
         <label>Intake Nickname</label>
-        <input type="text" id="inName" name="inName"><br><br>
+        <input class="txtbx" type="text" id="inName" name="inName"><br><br>
         <label>Enter intake data (in grams per serve)</label><br>
-        <input type="text" id="protein" name="protein" placeholder="Protein">
-        <input type="text" id="carbo" name="carbo" placeholder="Carbohydrates">
-        <input type="text" id="fat" name="fat" placeholder="Fat"><br><br>
+        <input class="txtbx2" type="text" id="protein" name="protein" placeholder="Protein">
+        <input class="txtbx2" type="text" id="carbo" name="carbo" placeholder="Carbs">
+        <input class="txtbx2" type="text" id="fat" name="fat" placeholder="Fat"><br><br>
         <label>Calorie intake = </label>
-        <input type="text" id="cal" name="cal" placeholder="leave blank to calculate"/>
+        <input class="txtbx" type="text" id="cal" name="cal" placeholder="leave blank to calculate"/>
         <!-- <label id="Calories">0</label><br> -->
-        <button type="button" onclick="CalcCal()">Calculate Calories</button><br>
-        <input type="submit"/>
+        <button class="btn" type="button" onclick="CalcCal()">Calculate Calories</button><br>
+        <input class="btn" type="submit"/>
         <br>
     </div>
     <div>
-      <h3>Nutrition intake this week</h5>
+      <h3>Nutrition intake tracking:</h5>
     </div>
     <script>
       function CalcCal(){
@@ -48,7 +94,6 @@
         sessionStorage.setItem("inName", inName);
         sessionStorage.setItem("calories", Calories);
         sessionStorage.setItem("clickcount", "1");
-        //window.location.href = "save";
       }
     </script>
   </form>
