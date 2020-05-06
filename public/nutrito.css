@@ -3,7 +3,7 @@
 body {
   background-color: white;
   font-family: 'Baloo Tamma 2', cursive;
-
+  max-width: 480px;
 }
 
 h1 {
@@ -14,11 +14,14 @@ h1 {
 #nutri {
  background-color: white;
  width: 70%;
- padding: 10px;
+ padding: 15px;
+ padding-left: 2%;
  border-radius: 20px;
  border-style: solid;
  border-width: thin;
  border-color: black;
+ margin-left: 2%;
+ max-width: 480px;
 }
 
 .btn {
@@ -44,7 +47,7 @@ h1 {
 }
 
 .txtbx {
-  width: 60%;
+  width: 50%;
   padding: 5px 10px;
   margin: 8px 0;
   box-sizing: border-box;

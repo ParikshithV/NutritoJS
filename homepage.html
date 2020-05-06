@@ -6,7 +6,7 @@
   </head>
   <body>
     <div>
-      <h1>Nutrito JS</h1>
+      <h1>NutritoJS</h1>
       <div>
       <button class="btn" type="button" onclick="AbtMe()">About Me</button>
       <button class="btnLog" type="button"onclick="Logout()">Logout</button>
@@ -17,14 +17,14 @@
       <form action="save.html" method="post">
       <h3>Add nutrition intake data :</h5>
         <label>Intake Nickname : </label>
-        <input class="txtbx" type="text" id="inName" name="inName"><br><br>
+        <input class="txtbx" type="text" id="inName" name="inName" required><br><br>
         <label>Enter intake data (in grams per serve) :</label><br>
-        <input class="txtbx2" type="text" id="protein" name="protein" placeholder="Protein">
-        <input class="txtbx2" type="text" id="carbo" name="carbo" placeholder="Carbs">
-        <input class="txtbx2" type="text" id="fat" name="fat" placeholder="Fat"><br><br>
+        <input class="txtbx2" type="text" id="protein" name="protein" placeholder="Protein" required>
+        <input class="txtbx2" type="text" id="carbo" name="carbo" placeholder="Carbs" required>
+        <input class="txtbx2" type="text" id="fat" name="fat" placeholder="Fat" required><br><br>
         <label>Calorie intake = </label>
-        <input class="txtbx" type="text" id="cal" name="cal" placeholder="leave blank to calculate"/>
-        <!-- <label id="Calories">0</label><br> --><br>
+        <input style="width: 160px;"class="txtbx" type="text" id="cal" name="cal" placeholder="leave blank to calculate" required/>
+        <!-- <label id="Calories">0</label><br> -->
         <button class="btn" type="button" onclick="CalcCal()">Calculate Calories</button><br><br>
         <input class="btn" type="submit"/>
         <br>
