@@ -5,16 +5,25 @@ var bodyParser = require('body-parser');
 var app = express();
 var path = require('path');
 var jsonParser = bodyParser.json();
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+var fs = require('fs');
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
   database: "nutritojs"
 });
-var fs = require('fs');
+
+const mimetypes = {
+    'html': 'text/html',
+    'css': 'text/css',
+    'js': 'text/javascript',
+    'png': 'image/png',
+    'jpeg': 'image/jpeg',
+    'jpg': 'image/jpg'
+};
 
 con.connect(function(err) {
   if (err) throw err;
