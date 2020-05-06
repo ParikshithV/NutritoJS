@@ -3,7 +3,7 @@
 body {
   background-color: white;
   font-family: 'Baloo Tamma 2', cursive;
-
+  max-width: 480px;
 }
 
 h1 {
