@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html>
   <head>
-    <script src="Nutrito.js"></script>
-    <meta charset="utf-8">
+    <link type="text/css" href="/css/nutrito.css">
     <title>Nutrito-JS</title>
   </head>
   <body>
-
-    <div class="menu-bar">
-      <label class="abt">Nutrito JS</label>
-      <div class="menu-btn">
-      <button onclick="AbtMe()">About Me</button>
+    <form action="save" method="post">
+    <div>
+      <label>Nutrito JS</label>
+      <div>
+      <button class="menubtn" onclick="AbtMe()">About Me</button>
       <button onclick="Logout()">Logout</button>
     </div>
   </div><br>
-
     <div>
       <h3>Add nutrition intake data :</h5>
         <label>Intake Nickname</label>
@@ -24,13 +21,18 @@
         <input type="text" id="carbo" name="carbo" placeholder="Carbohydrates">
         <input type="text" id="fat" name="fat" placeholder="Fat"><br><br>
         <label>Calorie intake = </label>
-        <label id="Calories">0</label><br>
-        <button onclick="CalcCal()">Calculate Calories</button>
-        <input type="submit" value="Save Data">
+        <input type="text" id="cal" name="cal" placeholder="leave blank to calculate"/>
+        <!-- <label id="Calories">0</label><br> -->
+        <button type="button" onclick="CalcCal()">Calculate Calories</button>
+        <input type="submit"/>
         <br>
+    </div>
+    <div>
+      <h3>Nutrition intake this week</h5>
     </div>
     <script>
       function CalcCal(){
+        var inName = document.getElementById("inName").value;
         var p = document.getElementById("protein").value;
         var c = document.getElementById("carbo").value;
         var f = document.getElementById("fat").value;
@@ -38,13 +40,17 @@
         var cal_c = c*4;
         var cal_f = f*9;
         var Calories = cal_c + cal_p + cal_f ;
-        document.getElementById("Calories").innerHTML = Calories;
+        // document.getElementById("Calories").innerHTML = Calories;
+        document.getElementById("cal").setAttribute('value',Calories);
+        sessionStorage.setItem("protein", p);
+        sessionStorage.setItem("carbo", c);
+        sessionStorage.setItem("fat", f);
+        sessionStorage.setItem("inName", inName);
+        sessionStorage.setItem("calories", Calories);
+        sessionStorage.setItem("clickcount", "1");
+        //window.location.href = "save";
       }
     </script>
-    <div>
-      <h3>Nutrition intake this week</h5>
-
-    </div>
-
+  </form>
   </body>
 </html>
