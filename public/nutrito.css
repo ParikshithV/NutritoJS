@@ -62,3 +62,8 @@ h1 {
   border: none;
   border-bottom: 2px solid black;
 }
+
+.graph {
+  max-width: 450px;
+  margin-left: 5%;
+}
