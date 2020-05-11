@@ -56,6 +56,27 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <canvas id="myChart" width="10" height="5"></canvas>
     <script>
+
+    function getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    var sPro = getCookie("sumPro");
+    var sCarbs = getCookie("sumCarbs");
+    var sFat = getCookie("sumFat");
+    var sCal = getCookie("sumCal");
+
       console.log("Diaplaying chart");
       var ctx = document.getElementById('myChart').getContext('2d');
       var myChart = new Chart(ctx, {
@@ -64,7 +85,7 @@
             labels: ['Protein', 'Carbohydrates', 'Fat', 'Calories'],
             datasets: [{
                 label: 'Units',
-                data: [x, 19, 3, 5],
+                data: [sPro, sCarbs, sFat, sCal],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',

@@ -7,8 +7,12 @@ var path = require('path');
 var jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var fs = require('fs');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser());
+// app.use(session({secret: "Shh, its a secret!"}));
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -25,6 +29,53 @@ const mimetypes = {
     'jpg': 'image/jpg'
 };
 
+
+function getData(){
+  var sql = "SELECT sum(Protein) FROM IntakeData" ;
+  con.query(sql, function (err, rows, result) {
+    if (err) throw err;
+    Object.keys(result).forEach(function(key) {
+      var arr = JSON.stringify(rows[0]);
+      var arred = JSON.parse(arr);
+      console.log(arred["sum(Protein)"]);
+      sumPro = arred["sum(Protein)"];
+  });
+  })
+
+  var sql = "SELECT sum(Carbohydrates) FROM IntakeData" ;
+  con.query(sql, function (err, rows, result) {
+    if (err) throw err;
+    Object.keys(result).forEach(function(key) {
+      var arr = JSON.stringify(rows[0]);
+      var arred = JSON.parse(arr);
+      console.log(arred["sum(Carbohydrates)"]);
+      sumCarbs = arred["sum(Carbohydrates)"];
+  });
+  })
+
+  var sql = "SELECT sum(Fat) FROM IntakeData" ;
+  con.query(sql, function (err, rows, result) {
+    if (err) throw err;
+    Object.keys(result).forEach(function(key) {
+      var arr = JSON.stringify(rows[0]);
+      var arred = JSON.parse(arr);
+      console.log(arred["sum(Fat)"]);
+      sumFat = arred["sum(Fat)"];
+  });
+  })
+
+  var sql = "SELECT sum(Calories) FROM IntakeData" ;
+  con.query(sql, function (err, rows, result) {
+    if (err) throw err;
+    Object.keys(result).forEach(function(key) {
+      var arr = JSON.stringify(rows[0]);
+      var arred = JSON.parse(arr);
+      console.log(arred["sum(Calories)"]);
+      sumCal = arred["sum(Calories)"];
+  });
+  })
+}
+
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
@@ -33,11 +84,18 @@ con.connect(function(err) {
     if (err) throw err;
     console.log("Done!");
   })
+  getData();
 });
 
 app.get('/', function(req, res) {
+  getData();
+   res.cookie('sumPro', sumPro);
+   res.cookie('sumCarbs', sumCarbs);
+   res.cookie('sumFat', sumFat);
+   res.cookie('sumCal', sumCal);
     res.sendFile(path.join(__dirname + '/homepage.html'));
 });
+
 
 app.post('/save.html', urlencodedParser, function(req, res){
     //if (err) throw err;

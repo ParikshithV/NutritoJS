@@ -44,6 +44,10 @@ h1 {
   background-color: #2eb82e;
   color: white;
 }
+.btnLog:hover {
+  background-color: #ff5145;
+  color: white;
+}
 
 .txtbx {
   width: 50%;
