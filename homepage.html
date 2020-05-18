@@ -14,7 +14,7 @@
   </div><br>
     <div>
     <div id="nutri">
-      <form action="save.html" method="post">
+      <form action="save" method="post">
       <h3>Add nutrition intake data :</h5>
         <label>Intake Nickname : </label>
         <input class="txtbx" type="text" id="inName" name="inName" required><br><br>
@@ -44,14 +44,11 @@
         var cal_f = f*9;
         var Calories = cal_c + cal_p + cal_f ;
         document.getElementById("cal").setAttribute('value',Calories);
-        sessionStorage.setItem("protein", p);
-        sessionStorage.setItem("carbo", c);
-        sessionStorage.setItem("fat", f);
-        sessionStorage.setItem("inName", inName);
-        sessionStorage.setItem("calories", Calories);
       }
     </script>
+    <br>
     <h3 style="margin-left: 2%">Nutrition intake tracking:</h5>
+      <button class="btn" style="margin-left: 2%" onClick="window.location.reload();">Refresh Data</button>
     <div class="graph">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <canvas id="myChart" width="10" height="5"></canvas>
@@ -109,7 +106,6 @@
                     }
                 }],
                 xAxes: [{
-                // Change here
                 	barPercentage: 0.1
                 }]
             }

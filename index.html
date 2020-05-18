@@ -1,3 +1,53 @@
 <script>
-window.location.href = "homepage.html";
+// window.location.href = "homepage.html";
 </script>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>About NutritoJS</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet">
+    <div class="menu-bar">
+      <label class="abt">Nutrition intake tracking web-app</label>
+    </div>
+  </head>
+  <body class="bg" style="padding-top: 70px">
+    <center>
+    <h2>About The Project</h2>
+    <p style="width: 55%">
+      Using this web-app the user will be able to track their nutrition intake
+    </p></center>
+
+    <center style="padding-top: 2%">
+      <h3>Why this web-app?</h3>
+    <div class="box">
+      <h4>Unique Data Input Methods</h4>
+      <p style="text-align: left">
+        The web-app provides the user with multiple methods of data input such as:
+        <ul>
+          <li>Manual data entry</li>
+          <li>OCR based data input (Using Tesseract JS)</li>
+          <li>Automatic calculation of calories</li>
+        </ul>
+      </p>
+      <button class="redb" onclick="window.location.href = '/signup';">Go to Registration Page</button>
+    </div>
+    <div class="box">
+      <h4>Nutrition Intake Tracking Options</h4>
+      <p style="text-align: left">
+        Users will be able to visually track their nutrition intake better with graphical representation of their data.
+      </p>
+      <button class="redb" onclick="window.location.href = '/loginPage';">Go to Login Page</button>
+    </div>
+    <div class="box">
+      <h4>Report Generation</h4>
+      <p style="text-align: left">
+        Users can export their nutrition intake data for external use in the form of a excel sheet or PDF
+      </p>
+      <button class="redb" onclick="window.location.href = '/';">User page</button>
+    </div>
+    </center>
+    </body>
+</html>

@@ -37,9 +37,9 @@ function getData(){
     Object.keys(result).forEach(function(key) {
       var arr = JSON.stringify(rows[0]);
       var arred = JSON.parse(arr);
-      console.log(arred["sum(Protein)"]);
+      // console.log(arred["sum(Protein)"]);
       sumPro = arred["sum(Protein)"];
-  });
+    });
   })
 
   var sql = "SELECT sum(Carbohydrates) FROM IntakeData" ;
@@ -48,7 +48,7 @@ function getData(){
     Object.keys(result).forEach(function(key) {
       var arr = JSON.stringify(rows[0]);
       var arred = JSON.parse(arr);
-      console.log(arred["sum(Carbohydrates)"]);
+      // console.log(arred["sum(Carbohydrates)"]);
       sumCarbs = arred["sum(Carbohydrates)"];
   });
   })
@@ -59,7 +59,7 @@ function getData(){
     Object.keys(result).forEach(function(key) {
       var arr = JSON.stringify(rows[0]);
       var arred = JSON.parse(arr);
-      console.log(arred["sum(Fat)"]);
+      // console.log(arred["sum(Fat)"]);
       sumFat = arred["sum(Fat)"];
   });
   })
@@ -70,7 +70,7 @@ function getData(){
     Object.keys(result).forEach(function(key) {
       var arr = JSON.stringify(rows[0]);
       var arred = JSON.parse(arr);
-      console.log(arred["sum(Calories)"]);
+      // console.log(arred["sum(Calories)"]);
       sumCal = arred["sum(Calories)"];
   });
   })
@@ -80,7 +80,14 @@ con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
   var sql = "CREATE TABLE IF NOT EXISTS IntakeData (InName VARCHAR(255), Protein VARCHAR(55), Carbohydrates VARCHAR(55), Fat VARCHAR(55), Calories VARCHAR(55))";
+  var sql1 = "CREATE TABLE IF NOT EXISTS userdb (userName VARCHAR(255), email VARCHAR(255), age VARCHAR(15), height VARCHAR(55), weight VARCHAR(55), gender VARCHAR(55), password VARCHAR(255))";
+
   con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Done!");
+  })
+
+  con.query(sql1, function (err, result) {
     if (err) throw err;
     console.log("Done!");
   })
@@ -96,8 +103,19 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/homepage.html'));
 });
 
+app.get('/about', function(req, res) {
+    res.sendFile(path.join(__dirname + '/index.html'));
+});
 
-app.post('/save.html', urlencodedParser, function(req, res){
+app.get('/signup', function(req, res) {
+    res.sendFile(path.join(__dirname + '/regPage.html'));
+});
+
+app.get('/loginPage', function(req, res) {
+    res.sendFile(path.join(__dirname + '/loginPage.html'));
+});
+
+app.post('/save', urlencodedParser, function(req, res){
     //if (err) throw err;
     var p = req.body.protein;
     var c = req.body.carbo;
@@ -112,6 +130,47 @@ app.post('/save.html', urlencodedParser, function(req, res){
   res.sendFile(path.join(__dirname + '/redirect.html'));
 })
 
+app.post('/signup', urlencodedParser, function(req, res){
+    //if (err) throw err;
+    var name = req.body.userName;
+    var email = req.body.userEmail;
+    var age = req.body.userAge;
+    var height = req.body.userHeight;
+    var weight = req.body.userWeight;
+    var gender = req.body.gender;
+    var password = req.body.password;
+
+    var sqlcheck = "select * from userdb where userName= '"+name+"'";
+    var sql = "insert into userdb (userName, email, age, height, weight, gender, password) values ('"+name+"','"+email+"','"+age+"','"+height+"','"+weight+"','"+gender+"','"+password+"')" ;
+    var sqluser = "CREATE TABLE IF NOT EXISTS "+name+" (InName VARCHAR(255), Protein VARCHAR(55), Carbohydrates VARCHAR(55), Fat VARCHAR(55), Calories VARCHAR(55))" ;
+
+    con.query(sqlcheck, function (err, rows, result) {
+      if (err) throw err;
+      console.log("UserName check");
+        // Object.keys(result).forEach(function(key) {
+        // var arr = JSON.stringify(rows[0]);
+        // var arred = JSON.parse(arr);
+        // console.log(arred["userName"]);
+        if (rows.length > 0) {
+          console.log("Username is already taken");
+          res.cookie('usernameCheck', 1);
+          res.sendFile(path.join(__dirname + '/regPage.html'));
+        } else {
+          res.cookie('usernameCheck', 0);
+          con.query(sql, function (err, result) {
+            if (err) throw err;
+            console.log("input saved!");
+          })
+          con.query(sqluser, function (err, result) {
+            if (err) throw err;
+            console.log("User registered");
+          })
+          console.log("Registration successful!");
+          res.sendFile(path.join(__dirname + '/loginPage.html'));
+        }
+  });
+})
+
 app.use(function(req, res, next) {
     res.status(404).send("It no work");
 });
@@ -119,32 +178,3 @@ app.use(function(req, res, next) {
 app.listen(8080, function () {
     console.log('Example app listening on port 8080.');
 });
-
-
-//-----------------------------------------------------------------------------------------------
-
-// var server = http.createServer(function(req,res){
-//   console.log('request was made: ' + req.url);
-//   res.writeHead(200, {'Content-Type': 'text/html'});
-//   var myReadStream = fs.createReadStream(__dirname + req.url, 'utf8');
-//   myReadStream.pipe(res);
-// });
-//
-// server.listen(8080);
-// console.log('listening to port 8080');
-
-//-----------------------------------------------------------------------------------------------
-
-// function onRequest(req, res) {
-//     res.writeHead(200,{'Content-Type': 'text/html'});
-//   fs.readFile('./homepage.html', null, function(error, data){ //write a response to the client
-//       if (error) {
-//         res.writehead(404);
-//         res.write('file not found');
-//       }else{
-//         res.write(data);
-//       }
-//   res.end(); //end the response
-// });
-// }
-// http.createServer(onRequest).listen(8080); //the server object listens on port 8080

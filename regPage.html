@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="nutrito.css">
+    <link href='https://fonts.googleapis.com/css?family=Alef' rel='stylesheet'>
+    <title>Nutrito-JS</title>
+  </head>
+  <body>
+    <div>
+      <h1>NutritoJS</h1>
+      <div>
+      <h2>Create new account :</h2>
+    </div>
+  </div>
+    <div>
+    <div id="nutriSignup">
+      <form action="signup" method="post">
+      <h3>Enter details :</h3>
+        <label>Name : </label>
+        <input class="txtbx" type="text" id="userName" name="userName" placeholder="   Required" required><br><br>
+        <label>Email ID : </label>
+        <input class="txtbx" type="email" id="userEmail" name="userEmail" placeholder="   Required" required><br><br>
+        <label>Age : </label>
+        <input class="txtbx2" type="number" id="userAge" name="userAge"><br><br>
+        <label>Height : </label>
+        <input class="txtbx2" type="number" id="userHeight" name="userHeight">
+        <label>Weight : </label>
+        <input class="txtbx2" type="number" id="userWeight" name="userWeight"><br><br>
+        <label>Gender : </label>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label>
+        <input type="radio" id="other" name="gender" value="other">
+        <label for="other">Other</label><br><br>
+        <label>Enter password : </label>
+        <input class="txtbx" type="password" id="password" name="password" placeholder="   Required" required><br><br>
+        <!-- <label>Confirm password : </label> -->
+        <!-- <input class="txtbx" type="password" id="confPassword" name="confPassword" placeholder="   Required" required><br><br> -->
+        <!-- <button class="btn" type="button" onclick="register()">Submit</button><br> -->
+        <input class="btn" type="submit"/>
+    </div>
+  </div>
+  <script>
+  function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  var un = getCookie("usernameCheck");
+    if (un = 1) {
+      alert("Username is already taken");
+      document.cookie = "usernameCheck= 0";
+    }
+  </script>
+ </body>
+</html>
