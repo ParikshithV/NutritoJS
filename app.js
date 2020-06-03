@@ -9,6 +9,8 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var fs = require('fs');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+// var server = require('http').createServer();
+// var io = require('socket.io')(server);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
@@ -29,53 +31,6 @@ const mimetypes = {
     'jpg': 'image/jpg'
 };
 
-
-function getData(){
-  var sql = "SELECT sum(Protein) FROM IntakeData" ;
-  con.query(sql, function (err, rows, result) {
-    if (err) throw err;
-    Object.keys(result).forEach(function(key) {
-      var arr = JSON.stringify(rows[0]);
-      var arred = JSON.parse(arr);
-      // console.log(arred["sum(Protein)"]);
-      sumPro = arred["sum(Protein)"];
-    });
-  })
-
-  var sql = "SELECT sum(Carbohydrates) FROM IntakeData" ;
-  con.query(sql, function (err, rows, result) {
-    if (err) throw err;
-    Object.keys(result).forEach(function(key) {
-      var arr = JSON.stringify(rows[0]);
-      var arred = JSON.parse(arr);
-      // console.log(arred["sum(Carbohydrates)"]);
-      sumCarbs = arred["sum(Carbohydrates)"];
-  });
-  })
-
-  var sql = "SELECT sum(Fat) FROM IntakeData" ;
-  con.query(sql, function (err, rows, result) {
-    if (err) throw err;
-    Object.keys(result).forEach(function(key) {
-      var arr = JSON.stringify(rows[0]);
-      var arred = JSON.parse(arr);
-      // console.log(arred["sum(Fat)"]);
-      sumFat = arred["sum(Fat)"];
-  });
-  })
-
-  var sql = "SELECT sum(Calories) FROM IntakeData" ;
-  con.query(sql, function (err, rows, result) {
-    if (err) throw err;
-    Object.keys(result).forEach(function(key) {
-      var arr = JSON.stringify(rows[0]);
-      var arred = JSON.parse(arr);
-      // console.log(arred["sum(Calories)"]);
-      sumCal = arred["sum(Calories)"];
-  });
-  })
-}
-
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
@@ -91,28 +46,46 @@ con.connect(function(err) {
     if (err) throw err;
     console.log("Done!");
   })
-  getData();
+  //getData();
 });
 
 app.get('/', function(req, res) {
-  getData();
-   res.cookie('sumPro', sumPro);
-   res.cookie('sumCarbs', sumCarbs);
-   res.cookie('sumFat', sumFat);
-   res.cookie('sumCal', sumCal);
-    res.sendFile(path.join(__dirname + '/homepage.html'));
+  // Homepage yet to be made
 });
 
 app.get('/about', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-app.get('/signup', function(req, res) {
-    res.sendFile(path.join(__dirname + '/regPage.html'));
-});
-
 app.get('/loginPage', function(req, res) {
     res.sendFile(path.join(__dirname + '/loginPage.html'));
+});
+
+app.post('/loginSession', function(req, res) {
+    var userName = req.body.userName;
+    var password = req.body.password;
+    console.log("Login check...");
+
+    var sql = "SELECT * FROM userdb where userName = '"+userName+"' and password = '"+password+"'" ;
+    con.query(sql, function (err, rows, result) {
+      if (err) throw err;
+      Object.keys(result).forEach(function(key) {
+        if (rows.length>0) {
+          res.cookie('UserName', userName);
+          // res.cookie('sumCarbs', password);
+          getData(userName);
+          // res.cookie('sumPro', sumPro);
+          // res.cookie('sumCarbs', sumCarbs);
+          // res.cookie('sumFat', sumFat);
+          // res.cookie('sumCal', sumCal);
+          res.clearCookie('noSesh');
+          res.sendFile(path.join(__dirname + '/userPage.html'));
+        } else {
+          res.cookie('noSesh', 1, {maxAge: 1000});
+          res.sendFile(path.join(__dirname + '/loginPage.html'));
+        }
+    });
+    })
 });
 
 app.post('/save', urlencodedParser, function(req, res){
@@ -170,6 +143,53 @@ app.post('/signup', urlencodedParser, function(req, res){
         }
   });
 })
+
+
+function getData(userName){
+  var sql = "SELECT sum(Protein) FROM "+userName+"" ;
+  con.query(sql, function (err, rows, result) {
+    if (err) throw err;
+    Object.keys(result).forEach(function(key) {
+      var arr = JSON.stringify(rows[0]);
+      var arred = JSON.parse(arr);
+      // console.log(arred["sum(Protein)"]);
+      sumPro = arred["sum(Protein)"];
+    });
+  })
+
+  var sql = "SELECT sum(Carbohydrates) FROM "+userName+"" ;
+  con.query(sql, function (err, rows, result) {
+    if (err) throw err;
+    Object.keys(result).forEach(function(key) {
+      var arr = JSON.stringify(rows[0]);
+      var arred = JSON.parse(arr);
+      // console.log(arred["sum(Carbohydrates)"]);
+      sumCarbs = arred["sum(Carbohydrates)"];
+  });
+  })
+
+  var sql = "SELECT sum(Fat) FROM "+userName+"" ;
+  con.query(sql, function (err, rows, result) {
+    if (err) throw err;
+    Object.keys(result).forEach(function(key) {
+      var arr = JSON.stringify(rows[0]);
+      var arred = JSON.parse(arr);
+      // console.log(arred["sum(Fat)"]);
+      sumFat = arred["sum(Fat)"];
+  });
+  })
+
+  var sql = "SELECT sum(Calories) FROM "+userName+"" ;
+  con.query(sql, function (err, rows, result) {
+    if (err) throw err;
+    Object.keys(result).forEach(function(key) {
+      var arr = JSON.stringify(rows[0]);
+      var arred = JSON.parse(arr);
+      // console.log(arred["sum(Calories)"]);
+      sumCal = arred["sum(Calories)"];
+  });
+  })
+}
 
 app.use(function(req, res, next) {
     res.status(404).send("It no work");

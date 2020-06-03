@@ -1,0 +1,117 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="nutrito.css">
+    <link href='https://fonts.googleapis.com/css?family=Alef' rel='stylesheet'>
+    <title>Nutrito-JS</title>
+  </head>
+  <body>
+    <div>
+      <h1>NutritoJS</h1>
+      <div>
+      <button class="btn" type="button" onclick="AbtMe()">My Profile</button>
+      <button class="btnLog" type="button"onclick="Logout()">Logout</button>
+    </div>
+  </div><br>
+    <div>
+    <div id="nutri">
+      <form action="save" method="post">
+      <h3>Add nutrition intake data :</h5>
+        <label>Intake Nickname : </label>
+        <input class="txtbx" type="text" id="inName" name="inName" required><br><br>
+        <label>Enter intake data (in grams per serve) :</label><br>
+        <input class="txtbx2" type="text" id="protein" name="protein" placeholder="Protein" required>
+        <input class="txtbx2" type="text" id="carbo" name="carbo" placeholder="Carbs" required>
+        <input class="txtbx2" type="text" id="fat" name="fat" placeholder="Fat" required><br><br>
+        <label>Calorie intake = </label>
+        <input style="width: 160px;"class="txtbx" type="text" id="cal" name="cal" placeholder="leave blank to calculate" required/>
+        <!-- <label id="Calories">0</label><br> -->
+        <button class="btn" type="button" onclick="CalcCal()">Calculate Calories</button><br><br>
+        <input class="btn" type="submit"/>
+        <br>
+    </div>
+    <div>
+    </form>
+    </div>
+    </div>
+    <script>
+      function CalcCal(){
+        var inName = document.getElementById("inName").value;
+        var p = document.getElementById("protein").value;
+        var c = document.getElementById("carbo").value;
+        var f = document.getElementById("fat").value;
+        var cal_p = p*4;
+        var cal_c = c*4;
+        var cal_f = f*9;
+        var Calories = cal_c + cal_p + cal_f ;
+        document.getElementById("cal").setAttribute('value',Calories);
+      }
+    </script>
+    <br>
+    <h3 style="margin-left: 2%">Nutrition intake tracking:</h5>
+      <button class="btn" style="margin-left: 2%" onClick="window.location.reload();">Refresh Data</button>
+    <div class="graph">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <canvas id="myChart" width="10" height="5"></canvas>
+    <script>
+
+    function getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    var sPro = getCookie("sumPro");
+    var sCarbs = getCookie("sumCarbs");
+    var sFat = getCookie("sumFat");
+    var sCal = getCookie("sumCal");
+
+      console.log("Diaplaying chart");
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'horizontalBar',
+        data: {
+            labels: ['Protein', 'Carbohydrates', 'Fat', 'Calories'],
+            datasets: [{
+                label: 'Units',
+                data: [sPro, sCarbs, sFat, sCal],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }],
+                xAxes: [{
+                	barPercentage: 0.1
+                }]
+            }
+        }
+      });
+    </script>
+    </div>
+  </body>
+</html>

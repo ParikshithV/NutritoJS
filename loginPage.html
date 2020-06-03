@@ -7,17 +7,39 @@
   <body>
     <div>
       <h1>NutritoJS</h1>
-      <div>
-    </div>
-  </div>
-    <div><br><br><br>
+  </div><br><br><br>
     <div id="nutriLogin">
-      <form action="logIn" method="post">
+      <form action="loginSession" method="post">
       <h3>Enter login details :</h3>
         <label>Email ID : </label>
-        <input class="txtbx" type="email" id="userName" name="userEmail" placeholder="   Required" required><br><br4>
+        <input class="txtbx" type="text" id="userName" name="userName" placeholder="   Required" required><br><br4>
         <label>Password : </label>
         <input class="txtbx" type="password" id="password" name="password" placeholder="   Required" required><br><br>
         <input class="btn" type="submit"/>
         <br>
     </div>
+    <script>
+    function getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    var noSesh = getCookie("noSesh");
+    console.log(noSesh);
+      if (noSesh == 1) {
+        alert("Incorrect Email ID or Password");
+        var noSesh = 0;
+      }
+    </script>
+  </body>
+</html>
