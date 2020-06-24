@@ -15,6 +15,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 // app.use(session({secret: "Shh, its a secret!"}));
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -67,25 +72,23 @@ app.post('/loginSession', function(req, res) {
     console.log("Login check...");
 
     var sql = "SELECT * FROM userdb where userName = '"+userName+"' and password = '"+password+"'" ;
-    con.query(sql, function (err, rows, result) {
-      if (err) throw err;
-      Object.keys(result).forEach(function(key) {
-        if (rows.length>0) {
-          res.cookie('UserName', userName);
-          // res.cookie('sumCarbs', password);
-          getData(userName);
-          // res.cookie('sumPro', sumPro);
-          // res.cookie('sumCarbs', sumCarbs);
-          // res.cookie('sumFat', sumFat);
-          // res.cookie('sumCal', sumCal);
-          res.clearCookie('noSesh');
-          res.sendFile(path.join(__dirname + '/userPage.html'));
-        } else {
-          res.cookie('noSesh', 1, {maxAge: 1000});
-          res.sendFile(path.join(__dirname + '/loginPage.html'));
+    con.query(sql, function (error,  results) {
+    if (error) {
+   console.log("error ocurred",error);
+      }
+      else{
+            if(results.length >0)
+              {
+                return res.send("200");
+                req.session.name = userName;
+                //redirect
+               }
+        else
+          {
+          return res.send("300");
+          }
         }
-    });
-    })
+      });
 });
 
 app.post('/save', urlencodedParser, function(req, res){
@@ -105,11 +108,11 @@ app.post('/save', urlencodedParser, function(req, res){
 
 app.post('/signup', urlencodedParser, function(req, res){
     //if (err) throw err;
-    var name = req.body.userName;
-    var email = req.body.userEmail;
-    var age = req.body.userAge;
-    var height = req.body.userHeight;
-    var weight = req.body.userWeight;
+    var name = req.body.name;
+    var email = req.body.email;
+    var age = req.body.age;
+    var height = req.body.height;
+    var weight = req.body.weight;
     var gender = req.body.gender;
     var password = req.body.password;
 
@@ -126,12 +129,13 @@ app.post('/signup', urlencodedParser, function(req, res){
         // console.log(arred["userName"]);
         if (rows.length > 0) {
           console.log("Username is already taken");
-          res.cookie('usernameCheck', 1);
+          // res.cookie('usernameCheck', 1);
           res.sendFile(path.join(__dirname + '/regPage.html'));
         } else {
           res.cookie('usernameCheck', 0);
           con.query(sql, function (err, result) {
             if (err) throw err;
+            return res.send('200');
             console.log("input saved!");
           })
           con.query(sqluser, function (err, result) {
